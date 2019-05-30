@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Piano Festival Registration</title>
+      <link rel="stylesheet" type="text/css" href="assign13.css">
+      <script src="jquery.js"></script>
+      <script>         $(function() {
+            $('.error').hide();
+            $(document).ready(function(){
+                     $("#display").load("assign13.php");
+               //$("#display").load("test.txt");
+            $("input#button").click(function(){
+               $('.error').hide();
+               var ty = document.getElementById("type").value;
+               var bu = document.getElementById("bu").value;
+               var ro = $("input#ro").val();
+               if (ro == "") {
+                  $("label#ro_error").show();
+                  $("input#ro").focus();
+                  return false;
+               }
+
+               var ti = document.getElementById("ti").value;
+               var fn1 = document.getElementById("fn1").value;
+               if (fn1 == "") {
+                  $("label#fn1_error").show();
+                  $("input#fn1").focus();
+                  return false;
+               }
+
+               var ln1 = document.getElementById("ln1").value;
+               if (ln1 == "") {
+                  $("label#ln1_error").show();
+                  $("input#ln1").focus();
+                  return false;
+               }
+
+               var id1 = document.getElementById("id1").value;
+               if (id1 == "") {
+                  $("label#id1_error").show();
+                  $("input#id1").focus();
+                  return false;
+               }
+
+               var sl1 = document.getElementById("sl1").value;
+               var ins1 = document.getElementById("ins1").value;
+               var fn2 = document.getElementById("fn2").value;
+               if (fn2 == "" && $("select#type").val() == "Duet") {
+                  $("label#fn2_error").show();
+                  $("input#fn2").focus();
+                  return false;
+               }
+
+               var ln2 = document.getElementById("ln2").value;
+               if (ln2 == "" && $("select#type").val() == "Duet") {
+                  $("label#ln2_error").show();
+                  $("input#ln2").focus();
+                  return false;
+               }
+               var id2 = document.getElementById("id2").value;
+               if (id2 == "" && $("select#type").val() == "Duet") {
+                  $("label#id2_error").show();
+                  $("input#id2").focus();
+                  return false;
+               }
+               var sl2 = document.getElementById("sl2").value;
+               var ins2 = document.getElementById("ins2").value;
+               //var url = "assign13.php?type=" + ty + "&building=" + bu + "&room=" + ro + "&time=" + ti + "&firstname1=" + fn1 + "&lastname1=" + ln1 + "&id1=" + id1 + "&skill1=" + sl1 + "&instrument1=" + ins1 + "&firstname2=" + fn2 + "&lastname2=" + ln2 + "&id2=" + id2 + "&skill2=" + sl2 + "&instrument2=" + ins2;
+               //$("#display").load("test.txt");
+               if ($("select#type").val() == "Duet") {
+               var dataString1 = "<tr><td>" + fn1 + " " + ln1 + " and " + fn2 + " " + ln2 + "</td><td>" + ty + "</td><td>" + ins1 + " and " + ins2 + "</td><td>" + bu + " " + ro + "</td><td>" + ti + "</td></tr>";
+               $.ajax({
+                  type: "GET",
+                  url: "assign13.php",
+                  data: {
+                     stuff: dataString1
+                  },
+                  success: function() {
+                     $('#display').html("<div id='message'></div>");
+                     $('#message').html("<h2>Student registered!</h2>")
+                     .append("<p>Be sure to write down your info.</p>")
+                     .hide()
+                     .fadeOut(1500, function() {
+                     });
+                  }
+               });
+               }
+               else {
+               var dataString2 = "<tr><td>" + fn1 + " " + ln1 + "</td><td>" + ty + "</td><td>" + ins1 + "</td><td>" + bu + " " + ro + "</td><td>" + ti + "</td></tr>";
+               $.ajax({
+                  type: "GET",
+                  url: "assign13.php",
+                  data: {
+                     stuff: dataString2
+                  },
+                  success: function() {
+                     $('#display').html("<div id='message'></div>");
+                     $('#message').html("<h2>Student registered!</h2>")
+                     .append("<p>Be sure to write down your info.</p>")
+                     .hide()
+                     .fadeOut(1500, function() {
+                     });
+                  }
+               });
+               }
+
+               //$("#display").load("test.txt");
+;
+               //alert (dataString);return false;
+               $("#display").load("assign13.php");
+        return false;
+      });
+   });
+         /*var myObj = formdataheresomehow!!!;
+         $.get('assign13.php', myObj, function() {
+            content.html(response);
+         });*/
+   });
+      </script>
+      <script>
+         function duet() {
+            if (document.getElementById("type").value == "Duet") {
+               document.getElementById("hide").style.visibility = "visible";
+               document.getElementById("hide1").style.visibility = "visible";
+            }
+            else {
+               document.getElementById("hide").style.visibility = "hidden";
+               document.getElementById("hide1").style.visibility = "hidden";
+            }
+         }
+      </script>
+   </head>
+   <body>
+      <header>
+         <h1>Piano Festival</h1>
+      </header>
+      <div>
+      <form>
+         <table>
+            <tr>
+               <th>Type</th>
+               <th>Building</th>
+               <th>Room #</th>
+               <th>Time Slot</th>
+            </tr>
+            <tr>
+               <td><select name="type" id="type" onclick="duet()">
+                     <option value="Solo">Solo</option>
+                     <option value="Duet">Duet</option>
+                     <option value="Concerto">Concerto</option>
+                  </select><label class="error" for="type" id="type_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               <td><select name="bu" id="bu">
+                     <option value="Snow">Snow</option>
+                     <option value="Austin">Austin</option>
+                     <option value="Ricks">Ricks</option>
+                     <option value="Hinckley">Hinckley</option>
+                     <option value="I-Center">I-Center</option>
+                     <option value="MC">MC</option>
+                     <option value="Rigby">Rigby</option>
+               </select><label class="error" for="bu" id="bu_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+            <td><input type="text" size="5" name="ro" id="ro"><label class="error" for="ro" id="ro_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               <td><select name="ti" id="ti">
+                     <option value="9:00am">9:00am</option>
+                     <option value="9:30am">9:30am</option>
+                     <option value="10:00am">10:00am</option>
+                     <option value="10:30am">10:30am</option>
+                     <option value="11:00am">11:00am</option>
+                     <option value="11:30am">11:30am</option>
+                     <option value="12:00pm">12:00pm</option>
+                     <option value="12:30pm">12:30pm</option>
+                     <option value="1:00pm">1:00pm</option>
+                     <option value="1:30pm">1:30pm</option>
+                     <option value="2:00pm">2:00pm</option>
+                     <option value="2:30pm">2:30pm</option>
+                     <option value="3:00pm">3:00pm</option>
+                     <option value="3:30pm">3:30pm</option>
+                     <option value="4:00pm">4:00pm</option>
+                     <option value="4:30pm">4:30pm</option>
+                     <option value="5:00pm">5:00pm</option>
+               </select></td>
+            </tr>
+         </table>
+         <br>
+         <table>
+            <tr>
+               <th>First Name</th>
+               <th>Last Name</th>
+               <th>Student ID</th>
+            </tr>
+            <tr>
+               <td><input type="text" size="10" name="fn1" id="fn1"value=""><label class="error" for="fn1" id="fn1_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               <td><input type="text" size="10" name="ln1" id="ln1" value=""><label class="error" for="ln1" id="ln1_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               <td><input type="text" size="6" name="id1" id="id1" value=""><label class="error" for="id1" id="id1_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               </tr>
+            <tr id="hide" style="visibility: hidden">
+               <td><input size="10" type="text" name="fn2" id="fn2"value=""><label class="error" for="fn2" id="fn2_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               <td><input type="text" size="10" name="ln2" id="ln2" value=""><label class="error" for="ln2" id="ln2_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               <td><input type="text" size="6" name="id2" id="id2" value=""><label class="error" for="id2" id="id2_error"><p style="color: red"><b>This field is required.</b></p></label></td>
+               </tr>
+
+            </tr>
+         </table>
+         <br>
+         <table>
+            <tr>
+               <th>Skill Level</th>
+               <th>Instrument</th>
+            </tr>
+               <tr>
+               <td><select name="sl1" id="sl1">
+                     <option value="Beginner">Beginner</option>
+                     <option value="Intermediate">Intermediate</option>
+                     <option value="Pre-Advanced">Pre-Advanced</option>
+                     <option value="Advanced">Advanced</option>
+               </select></td>
+               <td><select name="ins1" id="ins1">
+                     <option value="Piano">Piano</option>
+                     <option value="Voice">Voice</option>
+                     <option value="String">String</option>
+                     <option value="Organ">Organ</option>
+                     <option value="Other">Other</option>
+               </select></td>
+            </tr>
+            <tr id="hide1" style="visibility: hidden">
+               <td><select name="sl2" id="sl2">
+                     <option value="Beginner">Beginner</option>
+                     <option value="Intermediate">Intermediate</option>
+                     <option value="Pre-Advanced">Pre-Advanced</option>
+                     <option value="Advanced">Advanced</option>
+               </select></td>
+               <td><select name="ins2" id="ins2">
+                     <option value="Piano">Piano</option>
+                     <option value="Voice">Voice</option>
+                     <option value="String">String</option>
+                     <option value="Organ">Organ</option>
+                     <option value="Other">Other</option>
+               </select></td>
+
+            </tr>
+         </table>
+         <br> 
+         <table class="buttons" style="width: 80%; margin: auto; border: 0;">
+            <tr>
+               <td class="buttons" style="width: 50%"><input id="button" type="button" class="button" value="Register Student"></td>
+               <td class="buttons" style="width: 50%"><input class="button" type="reset"></td>
+            </tr>
+         </table>
+      </form>
+      </div>
+      <br>
+      <div>
+         <h2>Currently Registered Students</h2>
+         <br>
+         <table id="display">
+         </table>
+      </div>
+   </body>
+</html>
